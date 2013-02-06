@@ -28,7 +28,6 @@ import java.util.Date
 import scala.collection.JavaConversions.seqAsJavaList
 
 import org.jfree.data.category._
-import org.jfree.data.general._
 import org.jfree.data.statistics._
 import org.jfree.data.time._
 import org.jfree.data.xy._
@@ -70,13 +69,6 @@ trait RichChartingCollections {
     def toCategoryDataset(implicit eva: A ⇒ Comparable[A], evb: B ⇒ Number): CategoryDataset = {
       val dataset = new DefaultCategoryDataset
       it foreach { case (category,value) ⇒ dataset.addValue(value, category, "") }
-      dataset
-    }
-
-    /** Converts this collection to a `PieDataset`. */
-    def toPieDataset(implicit eva: A ⇒ Comparable[A], evb: B ⇒ Number): PieDataset = {
-      val dataset = new DefaultPieDataset
-      it foreach { case (category,value) ⇒ dataset.setValue(category, value) }
       dataset
     }
 

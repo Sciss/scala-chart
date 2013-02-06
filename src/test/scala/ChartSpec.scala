@@ -251,17 +251,17 @@ class ChartSpec extends Specification { def is =
   }
 
   def pc1 = {
-    val chart = PieChart(piedataset)
+    val chart = PieChart(points)
     (chart.plot must not (throwA[ClassCastException])) and (chart.plot must beAnInstanceOf[PiePlot])
   }
 
   def pc2 = {
-    val chart = PieChart.threeDimensional(piedataset)
+    val chart = PieChart.threeDimensional(points)
     (chart.plot must not (throwA[ClassCastException])) and (chart.plot must beAnInstanceOf[PiePlot])
   }
 
   def rc1 = {
-    val chart = RingChart(piedataset)
+    val chart = RingChart(points)
     (chart.plot must not (throwA[ClassCastException])) and (chart.plot must beAnInstanceOf[RingPlot])
   }
 
@@ -333,7 +333,6 @@ class ChartSpec extends Specification { def is =
   def bwcategorydataset = Vector.tabulate(2)(i ⇒ (i,i to i)).toBoxAndWhiskerCategoryDataset
   def bwxydataset = Vector.tabulate(1)(i ⇒ (new java.util.Date(i.toLong * 1000),i to i)).toBoxAndWhiskerXYDataset()
   def categorydataset = points.toCategoryDataset
-  def piedataset = points.toPieDataset
   def tablexydataset = (for { category ← 'a' to 'b' } yield category.toString → points).toCategoryTableXYDataset
   def xydataset = points.toXYSeriesCollection()
 

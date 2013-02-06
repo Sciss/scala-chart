@@ -38,6 +38,7 @@ import org.jfree.data.xy._
 import org.jfree.util.TableOrder
 
 import Imports._
+import data._
 
 /** $ChartFactoriesInfo */
 object ChartFactories extends ChartFactories
@@ -360,10 +361,12 @@ trait ChartFactories {
       * @param legend   $legend
       * @param tooltips $tooltips
       */
-    def apply(dataset: PieDataset,
-              title: String = "",
-              legend: Boolean = true,
-              tooltips: Boolean = true): PieChart = {
+    def apply[Data: PieDatasetConverter](
+        data: Data,
+        title: String = "",
+        legend: Boolean = true,
+        tooltips: Boolean = true): PieChart = {
+      val dataset = implicitly[PieDatasetConverter[Data]].convert(data)
       val chart = createPieChart(title, dataset, legend, tooltips, false)
       new PieChart {
         override val peer = chart
@@ -377,10 +380,12 @@ trait ChartFactories {
       * @param legend   $legend
       * @param tooltips $tooltips
       */
-    def threeDimensional(dataset: PieDataset,
-                         title: String = "",
-                         legend: Boolean = true,
-                         tooltips: Boolean = true): PieChart = {
+    def threeDimensional[Data: PieDatasetConverter](
+        data: Data,
+        title: String = "",
+        legend: Boolean = true,
+        tooltips: Boolean = true): PieChart = {
+      val dataset = implicitly[PieDatasetConverter[Data]].convert(data)
       val chart = createPieChart3D(title, dataset, legend, tooltips, false)
       new PieChart {
         override val peer = chart
@@ -399,10 +404,12 @@ trait ChartFactories {
       * @param legend   $legend
       * @param tooltips $tooltips
       */
-    def apply(dataset: PieDataset,
-              title: String = "",
-              legend: Boolean = true,
-              tooltips: Boolean = true): RingChart = {
+    def apply[Data: PieDatasetConverter](
+        data: Data,
+        title: String = "",
+        legend: Boolean = true,
+        tooltips: Boolean = true): RingChart = {
+      val dataset = implicitly[PieDatasetConverter[Data]].convert(data)
       val chart = createRingChart(title, dataset, legend, tooltips, false)
       new RingChart {
         override val peer = chart

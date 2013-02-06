@@ -24,6 +24,8 @@
 
 package scalax.chart
 
+import org.jfree.data.general.{ PieDataset ⇒ JPieDataset }
+
 import Imports._
 
 /** Template trait for pie charts. */
@@ -40,9 +42,9 @@ trait PieChartLike[P <: PiePlot]
   override def labelGenerator_=(generator: Option[PieSectionLabelGenerator]) {
     plot.setLabelGenerator(generator.map( lg ⇒
       new org.jfree.chart.labels.PieSectionLabelGenerator {
-        override def generateAttributedSectionLabel(dataset: PieDataset, key: Comparable[_]): java.text.AttributedString =
+        override def generateAttributedSectionLabel(dataset: JPieDataset, key: Comparable[_]): java.text.AttributedString =
           null
-        override def generateSectionLabel(dataset: PieDataset, key: Comparable[_]): String =
+        override def generateSectionLabel(dataset: JPieDataset, key: Comparable[_]): String =
           lg(dataset, key)
       }
     ).orNull)
@@ -55,7 +57,7 @@ trait PieChartLike[P <: PiePlot]
   override def tooltipGenerator_=(generator: Option[PieToolTipGenerator]) {
     plot.setToolTipGenerator(generator.map( ttg ⇒
       new org.jfree.chart.labels.PieToolTipGenerator {
-        override def generateToolTip(dataset: PieDataset, key: Comparable[_]): String =
+        override def generateToolTip(dataset: JPieDataset, key: Comparable[_]): String =
           ttg(dataset, key)
       }
     ).orNull)

@@ -23,42 +23,8 @@
 
 
 package scalax.chart
+package data
 
-/** $ImportsInfo */
-object Imports extends Imports
+import org.jfree.data.general.{ PieDataset ⇒ JPieDataset }
 
-/** $TypeImportsInfo */
-object TypeImports extends TypeImports
-
-/** $StaticForwarderImportsInfo */
-object StaticForwarderImports extends StaticForwarderImports
-
-/** $ImportsInfo
-  *
-  * @define ImportsInfo Contains imports from foreign packages.
-  */
-trait Imports extends TypeImports with StaticForwarderImports
-
-/** $TypeImportsInfo
-  *
-  * @define TypeImportsInfo Contains only the type imports from foreign packages.
-  */
-trait TypeImports {
-  type Orientation = scala.swing.Orientation.Value
-
-  type CategoryDataset = org.jfree.data.category.CategoryDataset
-  type XYDataset = org.jfree.data.xy.XYDataset
-
-  type CategoryPlot = org.jfree.chart.plot.CategoryPlot
-  type MultiplePiePlot = org.jfree.chart.plot.MultiplePiePlot
-  type PiePlot = org.jfree.chart.plot.PiePlot
-  type XYPlot = org.jfree.chart.plot.XYPlot
-}
-
-/** $StaticForwarderImportsInfo
-  *
-  * @define StaticForwarderImportsInfo Contains only the static forwarder imports from foreign packages.
-  */
-trait StaticForwarderImports {
-  val Orientation = scala.swing.Orientation
-}
+trait PieDataset extends JPieDataset
