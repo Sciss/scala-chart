@@ -23,8 +23,7 @@ Usage
 Examples
 --------
 
-You can import nearly all of the `scala-chart` functionality (except the views, see below) with the
-following lines:
+You can import nearly all of the `scala-chart` functionality with the following lines:
 
     import scalax.chart._
     import scalax.chart.Charting._
@@ -46,16 +45,6 @@ to disk:
     chart.saveAsPNG(new java.io.File("/tmp/chart.png"), (1024,768))
     chart.saveAsJPEG(new java.io.File("/tmp/chart.jpg"), (1024,768))
     chart.saveAsPDF(new java.io.File("/tmp/chart.pdf"), (1024,768))
-
-There are also implicit conversions / views available, but they are not contained by the above
-imports, because of ambiguity issues with implicit conversions. There are different imports
-available for different kinds of datasets, e.g.:
-
-    import scalax.chart.views.XYDatasetViews._
-    val data = Seq((1,2),(2,4),(3,6),(4,8))
-    val chart = XYLineChart(data, title = "My Chart of Some Points")
-
-Import these with care, it's most likely better to use the explicit conversions as shown above.
 
 
 [JFreeChart]: http://jfree.org/jfreechart/
