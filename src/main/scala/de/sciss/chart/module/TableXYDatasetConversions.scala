@@ -1,0 +1,35 @@
+package de.sciss.chart
+package module
+
+import org.jfree.data.time.TimePeriod
+
+import scala.collection.{GenTraversableOnce => Coll}
+import scala.language.higherKinds
+
+/** $TableXYDatasetConversionsInfo */
+object TableXYDatasetConversions extends TableXYDatasetConversions
+
+/** $TableXYDatasetConversionsInfo
+  *
+  * @define TableXYDatasetConversionsInfo Provides converters for `TableXYDatasets`.
+  */
+trait TableXYDatasetConversions extends Converting with RichChartingCollections {
+
+  abstract class ToTableXYDataset[A] protected () extends Converter[A] {
+    type X <: TableXYDataset
+  }
+
+  object ToTableXYDataset extends ConverterCompanion[TableXYDataset,ToTableXYDataset] {
+    final def apply[A,B <: TableXYDataset](f: A => B): ToTableXYDataset[A] = new ToTableXYDataset[A] {
+      type X = B
+      override final def convert(a: A): X = f(a)
+    }
+
+    implicit def FromCategorizedTuple2s[A, B: Numeric, C: Numeric, BB[X] <: Coll[X], CC[X] <: Coll[X]](implicit evA: A => String): ToTableXYDataset[CC[(A,BB[(B,C)])]] =
+      apply(_.toCategoryTableXYDataset)
+
+    implicit def FromCategorizedTimeTuple2s[A, B, C: Numeric, BB[X] <: Coll[X], CC[X] <: Coll[X]](implicit evA: A => Comparable[A], evB: B => TimePeriod): ToTableXYDataset[CC[(A,BB[(B,C)])]] =
+      apply(_.toTimeTable)
+  }
+
+}

@@ -1,27 +1,10 @@
 language: scala
 
-branches:
-  only:
-    - develop
-
 scala:
-  - "2.12.2"
-  - "2.11.11"
-  - "2.10.6"
+  - "2.12.5"
+  - "2.11.12"
 
 jdk:
   - oraclejdk8
-  - oraclejdk7
-  - openjdk7
-  - openjdk6
-
-matrix:
-  exclude:
-  - scala: "2.12.2"
-    jdk: oraclejdk7
-  - scala: "2.12.2"
-    jdk: openjdk7
-  - scala: "2.12.2"
-    jdk: openjdk6
 
 sudo: false
