@@ -25,19 +25,19 @@ Usage
 Add the following to your [sbt][] build:
 
 ```scala
-libraryDependencies += "de.sciss" %% "scala-chart" % "0.6.0"
+libraryDependencies += "de.sciss" %% "scala-chart" % "0.7.0"
 ```
 
 In case exporting to PDF is required, also add [iText][] to your dependencies:
 
 ```scala
-libraryDependencies += "com.itextpdf" % "itextpdf" % "5.5.6"
+libraryDependencies += "com.itextpdf" % "itextpdf" % "5.5.13"
 ```
 
 In case exporting to SVG is required, also add [JFreeSVG][] to your dependencies:
 
 ```scala
-libraryDependencies += "org.jfree" % "jfreesvg" % "3.0"
+libraryDependencies += "org.jfree" % "jfreesvg" % "3.3"
 ```
 
 ### Imports

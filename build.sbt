@@ -2,7 +2,7 @@ lazy val root = project.withId("scala-chart").in(file("."))
   .settings(
     name                := "scala-chart",
     organization        := "de.sciss",
-    version             := "0.6.0",
+    version             := "0.7.0-SNAPSHOT",
     description         := "Scala Chart Library",
     homepage            := Some(url("https://github.com/wookietreiber/scala-chart")),
     startYear           := Some(2012),
@@ -10,8 +10,8 @@ lazy val root = project.withId("scala-chart").in(file("."))
       "GNU Lesser General Public Licence" -> url("http://www.gnu.org/licenses/lgpl.txt")
     ),
     apiURL              := Some(url("http://wookietreiber.github.io/scala-chart/latest/api/")),
-    scalaVersion        := "2.12.5",
-    crossScalaVersions  := Seq("2.12.5", "2.11.12"),
+    scalaVersion        := "2.13.0-M5",
+    crossScalaVersions  := Seq("2.12.8", "2.11.12", "2.13.0-M5"),
     autoAPIMappings := true,
     apiURL := Some(url(s"""http://wookietreiber.github.io/scala-chart/${version.value}/api/""")),
     scalacOptions in Test ++= Seq("-Yrangepos", "-deprecation", "-unchecked", "-feature",
@@ -33,7 +33,7 @@ lazy val root = project.withId("scala-chart").in(file("."))
 
 lazy val deps = new {
   val main = new {
-    val scalaSwing  = "2.0.3"
+    val scalaSwing  = "2.1.0-SNAPSHOT"
     val jfreechart  = "1.0.19"	// N.B. newer versions use crappy java fx
   }
   val opt = new {
@@ -42,7 +42,7 @@ lazy val deps = new {
   }
 
   val test = new {
-    val specs2      = "4.0.3"
+    val specs2      = "4.3.5"
   }
 }
 
@@ -58,9 +58,9 @@ lazy val publishSettings = Seq(
   publishArtifact in Test := false,
   pomIncludeRepository := { _ => false },
   scmInfo := Some(ScmInfo(
-    url("https://github.com/Sciss/scala-chart"),
-    "scm:git:git://github.com/Sciss/scala-chart.git",
-    Some("scm:git:https://github.com/Sciss/scala-chart.git")
+    url("https://git.iem.at/sciss/scala-chart"),
+    "scm:git:git://git.iem.at/sciss/scala-chart.git",
+    Some("scm:git:https://git.iem.at/sciss/scala-chart.git")
   )),
   pomExtra := {
     <developers>

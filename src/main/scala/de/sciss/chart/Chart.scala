@@ -6,8 +6,7 @@ import org.jfree.chart.title.Title
 import org.jfree.chart.{event => jevent}
 
 import scala.collection.JavaConverters._
-import scala.collection.{Traversable, mutable}
-import scala.swing.Publisher
+import scala.swing.{BufferWrapper, Publisher}
 
 /** Generic graphical representation of data.
   *
@@ -55,30 +54,20 @@ abstract class Chart protected () extends DisplayableChart with Publisher {
     peer.setTitle(title)
 
   /** Contains this charts subtitles and legends. */
-  object subtitles extends mutable.Buffer[Title] {
-    override def +=(title: Title): this.type = {
+  object subtitles extends BufferWrapper[Title] {
+    override def addOne(title: Title): this.type = {
       peer.addSubtitle(title)
       this
     }
 
-    override def +=:(title: Title): this.type = {
-      peer.addSubtitle(0, title)
-      this
-    }
+    override def insert(idx: Int, title: Title): Unit =
+      peer.addSubtitle(idx, title)
 
     override def apply(n: Int): Title =
       peer.getSubtitle(n)
 
     override def clear(): Unit =
       peer.clearSubtitles()
-
-    override def insertAll(n: Int, elems: Traversable[Title]): Unit = {
-      var i = n
-      elems foreach { title =>
-        peer.addSubtitle(i, title)
-        i += 1
-      }
-    }
 
     override def iterator: Iterator[Title] =
       peer.getSubtitles.iterator.asScala.map(_.asInstanceOf[Title])
