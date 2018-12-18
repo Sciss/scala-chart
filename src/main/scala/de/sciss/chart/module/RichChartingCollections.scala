@@ -29,7 +29,7 @@ object RichChartingCollections extends RichChartingCollections
   */
 trait RichChartingCollections extends Imports {
 
-  protected[chart] def calculateBoxAndWhiskerStatistics[A: Numeric](xs: swing.Seq[A]): BoxAndWhiskerItem =
+  protected[chart] def calculateBoxAndWhiskerStatistics[A: Numeric](xs: scala.collection.Seq[A]): BoxAndWhiskerItem =
     BoxAndWhiskerCalculator.calculateBoxAndWhiskerStatistics(xs.asJava)
 
   /** Enriches a collection of data pairs. */
@@ -42,7 +42,7 @@ trait RichChartingCollections extends Imports {
       * @usecase def toBoxAndWhiskerCategoryDataset(name: String): BoxAndWhiskerCategoryDataset
       *   @inheritdoc
       */
-    def toBoxAndWhiskerCategoryDataset[C: Numeric](name: Comparable[_] = "")(implicit eva: A => Comparable[A], evc: B => swing.Seq[C]): BoxAndWhiskerCategoryDataset = {
+    def toBoxAndWhiskerCategoryDataset[C: Numeric](name: Comparable[_] = "")(implicit eva: A => Comparable[A], evc: B => scala.collection.Seq[C]): BoxAndWhiskerCategoryDataset = {
       trav.foldLeft(new DefaultBoxAndWhiskerCategoryDataset()) { case (dataset,(category,values)) =>
         dataset.add(calculateBoxAndWhiskerStatistics(values), name, category)
         dataset
@@ -56,7 +56,7 @@ trait RichChartingCollections extends Imports {
       * @usecase def toBoxAndWhiskerXYDataset(name: String): BoxAndWhiskerXYDataset
       *   @inheritdoc
       */
-    def toBoxAndWhiskerXYDataset[C: Numeric](name: Comparable[_] = "")(implicit eva: A => Date, evb: B => swing.Seq[C]): BoxAndWhiskerXYDataset = {
+    def toBoxAndWhiskerXYDataset[C: Numeric](name: Comparable[_] = "")(implicit eva: A => Date, evb: B => scala.collection.Seq[C]): BoxAndWhiskerXYDataset = {
       trav.foldLeft(new DefaultBoxAndWhiskerXYDataset(name)) { case (dataset,(date,ys)) =>
         dataset.add(date, calculateBoxAndWhiskerStatistics(ys))
         dataset
@@ -216,7 +216,7 @@ trait RichChartingCollections extends Imports {
       * @usecase def toBoxAndWhiskerCategoryDataset: BoxAndWhiskerCategoryDataset
       *   @inheritdoc
       */
-    def toBoxAndWhiskerCategoryDataset[D: Numeric](implicit eva: A => Comparable[A], evb: B => Comparable[B], evc: C => swing.Seq[D]): BoxAndWhiskerCategoryDataset = {
+    def toBoxAndWhiskerCategoryDataset[D: Numeric](implicit eva: A => Comparable[A], evb: B => Comparable[B], evc: C => scala.collection.Seq[D]): BoxAndWhiskerCategoryDataset = {
       trav.foldLeft(new DefaultBoxAndWhiskerCategoryDataset()) { case (dataset,(upper,catvals)) =>
 
         catvals.foldLeft(dataset) { case (_dataset,(lower,values)) =>
