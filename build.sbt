@@ -2,7 +2,7 @@ lazy val root = project.withId("scala-chart").in(file("."))
   .settings(
     name                := "scala-chart",
     organization        := "de.sciss",
-    version             := "0.7.0-SNAPSHOT",
+    version             := "0.7.0",
     description         := "Scala Chart Library",
     homepage            := Some(url("https://github.com/wookietreiber/scala-chart")),
     startYear           := Some(2012),
@@ -33,7 +33,7 @@ lazy val root = project.withId("scala-chart").in(file("."))
 
 lazy val deps = new {
   val main = new {
-    val scalaSwing  = "2.1.0-SNAPSHOT"
+    val scalaSwing  = "2.1.0"
     val jfreechart  = "1.0.19"	// N.B. newer versions use crappy java fx
   }
   val opt = new {
@@ -42,7 +42,7 @@ lazy val deps = new {
   }
 
   val test = new {
-    val specs2      = "4.3.5"
+    val specs2      = "4.3.6"
   }
 }
 
