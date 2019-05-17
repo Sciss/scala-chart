@@ -16,7 +16,7 @@ lazy val root = project.withId(baseNameL).in(file("."))
     ),
     apiURL              := Some(url("http://wookietreiber.github.io/scala-chart/latest/api/")),
     scalaVersion        := "2.12.8",
-    crossScalaVersions  := Seq("2.12.8", "2.11.12", "2.13.0-RC1"),
+    crossScalaVersions  := Seq("2.12.8", "2.11.12", "2.13.0-RC2"),
     autoAPIMappings := true,
     apiURL := Some(url(s"""http://wookietreiber.github.io/scala-chart/${version.value}/api/""")),
     scalacOptions in Test ++= Seq("-Yrangepos", "-deprecation", "-unchecked", "-feature",
@@ -25,9 +25,15 @@ lazy val root = project.withId(baseNameL).in(file("."))
       "org.scala-lang.modules"  %%  "scala-swing" % deps.main.scalaSwing,
       "org.jfree"               %   "jfreechart"  % deps.main.jfreechart,
       "org.jfree"               %   "jfreesvg"    % deps.opt.jfreesvg  % Optional,
-      "com.itextpdf"            %   "itextpdf"    % deps.opt.itext     % Optional,
-      "org.specs2"              %%  "specs2-core" % deps.test.specs2   % Test
+      "com.itextpdf"            %   "itextpdf"    % deps.opt.itext     % Optional
     ),
+    libraryDependencies += {
+      if (scalaVersion.value == "2.13.0-RC2") {
+        "org.specs2" % "specs2-core_2.13.0-RC1" % deps.test.specs2 % Test
+      } else {
+        "org.specs2" %% "specs2-core" % deps.test.specs2 % Test
+      }
+    },
     mimaPreviousArtifacts := Set("de.sciss" %% baseNameL % mimaVersion),
     initialCommands in (Compile, consoleQuick) := (initialCommands in Compile).value,
     initialCommands in Compile in console +=
