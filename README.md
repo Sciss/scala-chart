@@ -71,18 +71,11 @@ val data = for (i <- 1 to 5) yield (i,i)
 val chart = XYLineChart(data)
 ```
 
-The first argument is always the dataset which is the only required argument. For better readability
-of your own code, you should name the other arguments:
-
-```scala
-val chart = XYLineChart(data, title = "My Chart of Some Points")
-```
-
 There are also some enrichments for the charts themselves to display them in a window or save them
 to disk:
 
 ```scala
-chart.show()
+chart.show(title = "My Chart of Some Points")
 ```
 
 ```scala
