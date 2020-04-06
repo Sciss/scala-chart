@@ -93,9 +93,10 @@ You can also do some animations, i.e. perform live updates on your datasets:
 val series = new XYSeries("f(x) = sin(x)")
 val chart = XYLineChart(series)
 chart.show()
-for (x <- -4.0 to 4 by 0.1) {
+for (xi <- -40 to 40) {
   swing.Swing onEDT {
-    series.add(x,math.sin(x))
+    val x = xi * 0.1
+    series.add(x, math.sin(x))
   }
   Thread.sleep(50)
 }

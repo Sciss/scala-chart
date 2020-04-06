@@ -1,4 +1,4 @@
-lazy val projectVersion = "0.7.1"
+lazy val projectVersion = "0.7.2-SNAPSHOT"
 lazy val mimaVersion    = "0.7.0"
 lazy val baseName       = "scala-chart"
 lazy val baseNameL      = baseName.toLowerCase
@@ -15,8 +15,8 @@ lazy val root = project.withId(baseNameL).in(file("."))
       "GNU Lesser General Public Licence" -> url("http://www.gnu.org/licenses/lgpl.txt")
     ),
     apiURL              := Some(url("http://wookietreiber.github.io/scala-chart/latest/api/")),
-    scalaVersion        := "2.12.8",
-    crossScalaVersions  := Seq("2.12.8", "2.11.12", "2.13.0"),
+    scalaVersion        := "2.13.1",
+    crossScalaVersions  := Seq("2.13.1", "2.12.11"),
     autoAPIMappings := true,
     apiURL := Some(url(s"""http://wookietreiber.github.io/scala-chart/${version.value}/api/""")),
     scalacOptions in Test ++= Seq("-Yrangepos", "-deprecation", "-unchecked", "-feature",
@@ -28,11 +28,7 @@ lazy val root = project.withId(baseNameL).in(file("."))
       "com.itextpdf"            %   "itextpdf"    % deps.opt.itext     % Optional
     ),
     libraryDependencies += {
-      if (scalaVersion.value == "2.13.0") {
-        "org.specs2" % "specs2-core_2.13.0-RC3" % deps.test.specs2 % Test
-      } else {
-        "org.specs2" %% "specs2-core" % deps.test.specs2 % Test
-      }
+      "org.specs2" %% "specs2-core" % deps.test.specs2 % Test
     },
     mimaPreviousArtifacts := Set("de.sciss" %% baseNameL % mimaVersion),
     initialCommands in (Compile, consoleQuick) := (initialCommands in Compile).value,
@@ -50,11 +46,11 @@ lazy val deps = new {
   }
   val opt = new {
     val jfreesvg    = "3.4"
-    val itext       = "5.5.13"
+    val itext       = "5.5.13.1"
   }
 
   val test = new {
-    val specs2      = "4.5.1"
+    val specs2      = "4.9.2"
   }
 }
 

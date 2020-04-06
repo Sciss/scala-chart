@@ -3,7 +3,6 @@ package exporting
 
 import java.io.{FileOutputStream, OutputStream}
 
-import javax.xml.bind.DatatypeConverter
 import org.jfree.chart.encoders.EncoderUtil
 
 /** Exports charts to JPEG images.
@@ -33,19 +32,25 @@ class JPEGExporter(val chart: Chart) extends AnyVal with Exporter {
   def writeAsJPEG(os: OutputStream, resolution: (Int,Int) = Chart.Default.Resolution): Unit =
     os.write(encodeAsJPEG(resolution))
 
-  /** Writes the chart to iTerm2 window
-    *
-    * @param resolution
-    *
-    * @usecase def writeToTerm():Unit
-    *   @inheritdoc
-    */
-  def writeToTerm(resolution:(Int,Int) = Chart.Default.Resolution): Unit = {
-    val base64Jpg = DatatypeConverter.printBase64Binary(encodeAsJPEG(resolution))
-    print(s"\u001b]1337;File=name=foo.jpg;size=${base64Jpg.length};inline=1:")
-    print(base64Jpg)
-    println("\u0007")
-  }
+// TODO: `writeToTerm` uses JavaEE API that is removed in Java 11. See here for possible workaround:
+// https://stackoverflow.com/questions/19743851/base64-java-encode-and-decode-a-string
+//
+//  /** Writes the chart to iTerm2 window
+//    *
+//    * @param resolution
+//    *
+//    * @usecase def writeToTerm():Unit
+//    *   @inheritdoc
+//    */
+//  def writeToTerm(resolution:(Int,Int) = Chart.Default.Resolution): Unit = {
+//    val base64Jpg = DatatypeConverter.printBase64Binary(encodeAsJPEG(resolution))
+//    print(s"\u001b]1337;File=name=foo.jpg;size=${base64Jpg.length};inline=1:")
+//    print(base64Jpg)
+//    println("\u0007")
+//  }
+
+  def writeToTerm(resolution: (Int,Int) = Chart.Default.Resolution): Unit =
+    throw new NotImplementedError()
 
   /** Returns the chart as a byte encoded JPEG image.
     *
