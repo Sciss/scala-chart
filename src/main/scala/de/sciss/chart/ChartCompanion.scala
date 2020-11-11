@@ -3,10 +3,10 @@ package de.sciss.chart
 import de.sciss.chart.module.Imports._
 
 /** A template class for companion objects of [[Chart]] classes. */
-abstract class ChartCompanion[C <: Chart] protected () extends DocMacros {
+abstract class ChartCompanion[C <: Chart, P <: org.jfree.chart.plot.Plot] protected () extends DocMacros {
 
   /** Returns the underlying plot type. */
-  type Plot = C#Plot
+  type Plot = P // C#Plot
 
   /** Returns a new $chart using an explicit peer.
     *

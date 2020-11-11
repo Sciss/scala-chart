@@ -15,7 +15,7 @@ abstract class FastScatterChart protected () extends Chart {
   * @define chart FastScatterChart
   * @define Chart FastScatterChart
   */
-object FastScatterChart extends ChartCompanion[FastScatterChart] {
+object FastScatterChart extends ChartCompanion[FastScatterChart, FastScatterPlot] {
   override final def fromPeer(jfree: JFreeChart): FastScatterChart = {
     require(jfree.getPlot.isInstanceOf[FastScatterPlot], "Illegal peer plot type.")
 

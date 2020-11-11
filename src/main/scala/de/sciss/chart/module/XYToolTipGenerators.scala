@@ -52,7 +52,7 @@ trait XYToolTipGenerators extends Imports {
     final def apply(generator: XYToolTipGenerator): XYToolTipGenerator = generator
 
     /** Returns a new tool tip generator by converting values to strings. */
-    final def apply(f: java.lang.Number => String): XYToolTipGenerator =
+    final def map(f: java.lang.Number => String): XYToolTipGenerator =
       XYToolTipGenerator { (dataset, series, item) =>
         val idx = dataset.indexOf(series)
         val value = dataset.getY(idx, item)

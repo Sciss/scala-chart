@@ -49,7 +49,7 @@ trait PieToolTipGenerators extends Imports {
     final def apply(generator: PieToolTipGenerator): PieToolTipGenerator = generator
 
     /** Returns a new tool tip generator by converting values to strings. */
-    final def apply(f: java.lang.Number => String): PieToolTipGenerator =
+    final def map(f: java.lang.Number => String): PieToolTipGenerator =
       PieToolTipGenerator { (dataset, key) =>
         val value = dataset.getValue(key)
         f(value)

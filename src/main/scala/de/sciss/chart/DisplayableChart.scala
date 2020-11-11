@@ -87,7 +87,8 @@ private[chart] trait DisplayableChart extends DocMacros {
   def toFrame(title: String = "", scrollable: Boolean = true): Frame = {
     val t = title
     val frame = new Frame {
-      override lazy val peer = new jchart.ChartFrame(t, chart.peer, scrollable) with InterfaceMixin
+      override lazy val peer: jchart.ChartFrame with InterfaceMixin2 =
+        new jchart.ChartFrame(t, chart.peer, scrollable) with InterfaceMixin2
     }
 
     applyScalaSwingListenerTo(frame.peer.getChartPanel, frame)

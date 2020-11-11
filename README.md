@@ -1,8 +1,8 @@
 # Scala Chart
 
 [![Build Status](https://travis-ci.org/Sciss/scala-chart.svg?branch=master)](https://travis-ci.org/Sciss/scala-chart)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/de.sciss/scala-chart_2.12/badge.svg)](https://maven-badges.herokuapp.com/maven-central/de.sciss/scala-chart_2.12)
-[![Scaladoc](http://javadoc-badge.appspot.com/de.sciss/scala-chart_2.12.svg?label=scaladoc)](http://javadoc-badge.appspot.com/de.sciss/scala-chart_2.12)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/de.sciss/scala-chart_2.13/badge.svg)](https://maven-badges.herokuapp.com/maven-central/de.sciss/scala-chart_2.13)
+[![Scaladoc](http://javadoc-badge.appspot.com/de.sciss/scala-chart_2.13.svg?label=scaladoc)](http://javadoc-badge.appspot.com/de.sciss/scala-chart_2.13)
 
 `scala-chart` is a Scala library for creating and working with charts. It wraps [JFreeChart][], much
 like `scala-swing` does with the original `javax.swing` package. This project is released under the
@@ -25,7 +25,7 @@ Usage
 Add the following to your [sbt][] build:
 
 ```scala
-libraryDependencies += "de.sciss" %% "scala-chart" % "0.7.1"
+libraryDependencies += "de.sciss" %% "scala-chart" % "0.8.0"
 ```
 
 In case exporting to PDF is required, also add [iText][] to your dependencies:

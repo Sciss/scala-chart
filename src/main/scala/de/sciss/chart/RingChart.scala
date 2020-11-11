@@ -14,7 +14,7 @@ abstract class RingChart protected () extends Chart with PieChartLike {
   * @define chart ring chart
   * @define Chart RingChart
   */
-object RingChart extends ChartCompanion[RingChart] {
+object RingChart extends ChartCompanion[RingChart, RingPlot] {
 
   override final def fromPeer(jfree: JFreeChart): RingChart = {
     require(jfree.getPlot.isInstanceOf[Plot], "Illegal peer plot type.")

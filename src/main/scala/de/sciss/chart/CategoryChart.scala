@@ -51,7 +51,7 @@ abstract class CategoryChart protected () extends Chart with Orientable
   * @define chart category chart
   * @define Chart CategoryChart
   */
-object CategoryChart extends ChartCompanion[CategoryChart] {
+object CategoryChart extends ChartCompanion[CategoryChart, CategoryPlot] {
   override final def fromPeer(jfree: JFreeChart): CategoryChart = {
     require(jfree.getPlot.isInstanceOf[Plot], "Illegal peer plot type.")
 

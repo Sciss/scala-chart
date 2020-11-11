@@ -6,3 +6,4 @@ project/boot/
 .idea_modules/
 dependency-graph.sbt
 wiki/
+/.bsp/

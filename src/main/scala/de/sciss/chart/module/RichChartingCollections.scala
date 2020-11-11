@@ -33,7 +33,7 @@ trait RichChartingCollections extends Imports {
     BoxAndWhiskerCalculator.calculateBoxAndWhiskerStatistics(xs.asJava)
 
   /** Enriches a collection of data pairs. */
-  implicit class RichTuple2s[A,B](trav: Coll[(A,B)]) {
+  implicit class RichTuple2s[A, B](trav: Coll[(A, B)]) {
 
     /** Converts this collection to a `BoxAndWhiskerCategoryDataset`.
       *
@@ -42,9 +42,11 @@ trait RichChartingCollections extends Imports {
       * @usecase def toBoxAndWhiskerCategoryDataset(name: String): BoxAndWhiskerCategoryDataset
       *   @inheritdoc
       */
-    def toBoxAndWhiskerCategoryDataset[C: Numeric](name: Comparable[_] = "")(implicit eva: A => Comparable[A], evc: B => scala.collection.Seq[C]): BoxAndWhiskerCategoryDataset = {
-      trav.foldLeft(new DefaultBoxAndWhiskerCategoryDataset()) { case (dataset,(category,values)) =>
-        dataset.add(calculateBoxAndWhiskerStatistics(values), name, category)
+    def toBoxAndWhiskerCategoryDataset[C: Numeric](name: Comparable[_] = "")
+                                                  (implicit eva: A => Comparable[A],
+                                                   evb: B => scala.collection.Seq[C]): BoxAndWhiskerCategoryDataset = {
+      trav.foldLeft(new DefaultBoxAndWhiskerCategoryDataset()) { case (dataset, (category, values)) =>
+        dataset.add(calculateBoxAndWhiskerStatistics(evb(values)), name, eva(category))
         dataset
       }
     }
@@ -56,9 +58,11 @@ trait RichChartingCollections extends Imports {
       * @usecase def toBoxAndWhiskerXYDataset(name: String): BoxAndWhiskerXYDataset
       *   @inheritdoc
       */
-    def toBoxAndWhiskerXYDataset[C: Numeric](name: Comparable[_] = "")(implicit eva: A => Date, evb: B => scala.collection.Seq[C]): BoxAndWhiskerXYDataset = {
-      trav.foldLeft(new DefaultBoxAndWhiskerXYDataset(name)) { case (dataset,(date,ys)) =>
-        dataset.add(date, calculateBoxAndWhiskerStatistics(ys))
+    def toBoxAndWhiskerXYDataset[C: Numeric](name: Comparable[_] = "")
+                                            (implicit eva: A => Date,
+                                             evb: B => scala.collection.Seq[C]): BoxAndWhiskerXYDataset = {
+      trav.foldLeft(new DefaultBoxAndWhiskerXYDataset(name)) { case (dataset, (date, ys)) =>
+        dataset.add(eva(date), calculateBoxAndWhiskerStatistics(evb(ys)))
         dataset
       }
     }
@@ -70,9 +74,10 @@ trait RichChartingCollections extends Imports {
       * @usecase def toCategoryDataset(name: String): CategoryDataset
       *   @inheritdoc
       */
-    def toCategoryDataset(name: Comparable[_] = "")(implicit eva: A => Comparable[A], numb: Numeric[B]): CategoryDataset = {
+    def toCategoryDataset(name: Comparable[_] = "")
+                         (implicit eva: A => Comparable[A], numb: Numeric[B]): CategoryDataset = {
       trav.foldLeft(new DefaultCategoryDataset) { case (dataset,(category,value)) =>
-        dataset.addValue(value.toDouble, name, category)
+        dataset.addValue(value.toDouble, name, eva(category))
         dataset
       }
     }
@@ -83,8 +88,8 @@ trait RichChartingCollections extends Imports {
       *   @inheritdoc
       */
     def toPieDataset(implicit eva: A => Comparable[A], numb: Numeric[B]): PieDataset = {
-      trav.foldLeft(new DefaultPieDataset) { case (dataset,(category,value)) =>
-        dataset.setValue(category, value.toDouble)
+      trav.foldLeft(new DefaultPieDataset) { case (dataset, (category, value)) =>
+        dataset.setValue(eva(category), value.toDouble)
         dataset
       }
     }
@@ -96,9 +101,10 @@ trait RichChartingCollections extends Imports {
       * @usecase def toTimePeriodValues(name: String): TimePeriodValues
       *   @inheritdoc
       */
-    def toTimePeriodValues(name: String = "")(implicit eva: A => TimePeriod, numb: Numeric[B]): TimePeriodValues = {
-      trav.foldLeft(new TimePeriodValues(name)) { case (series,(time,value)) =>
-        series.add(time,value.toDouble)
+    def toTimePeriodValues(name: String = "")
+                          (implicit eva: A => TimePeriod, numb: Numeric[B]): TimePeriodValues = {
+      trav.foldLeft(new TimePeriodValues(name)) { case (series, (time, value)) =>
+        series.add(eva(time), value.toDouble)
         series
       }
     }
@@ -120,9 +126,10 @@ trait RichChartingCollections extends Imports {
       * @usecase def toTimeSeries(name: String): TimeSeries
       *   @inheritdoc
       */
-    def toTimeSeries(name: Comparable[_] = "")(implicit eva: A => RegularTimePeriod, numb: Numeric[B]): TimeSeries = {
-      trav.foldLeft(new TimeSeries(name)) { case (series,(time,value)) =>
-        series.add(time, value.toDouble, false)
+    def toTimeSeries(name: Comparable[_] = "")
+                    (implicit eva: A => RegularTimePeriod, numb: Numeric[B]): TimeSeries = {
+      trav.foldLeft(new TimeSeries(name)) { case (series, (time, value)) =>
+        series.add(eva(time), value.toDouble, false)
         series
       }
     }
@@ -147,8 +154,8 @@ trait RichChartingCollections extends Imports {
       *   @inheritdoc
       */
     def toXYSeries(name: Comparable[_] = "", autoSort: Boolean = true, allowDuplicateXValues: Boolean = true)
-      (implicit numa: Numeric[A], numb: Numeric[B]): XYSeries = {
-      trav.foldLeft(new XYSeries(name, autoSort, allowDuplicateXValues)) { case (series, (x,y)) =>
+                  (implicit numa: Numeric[A], numb: Numeric[B]): XYSeries = {
+      trav.foldLeft(new XYSeries(name, autoSort, allowDuplicateXValues)) { case (series, (x, y)) =>
         series.add(x.toDouble, y.toDouble, false)
         series
       }
@@ -163,14 +170,15 @@ trait RichChartingCollections extends Imports {
       * @usecase def toXYSeriesCollection(name: String): XYSeriesCollection
       *   @inheritdoc
       */
-    def toXYSeriesCollection(name: Comparable[_] = "", autoSort: Boolean = true, allowDuplicateXValues: Boolean = true)
-      (implicit eva: Numeric[A], numb: Numeric[B]): XYSeriesCollection =
+    def toXYSeriesCollection(name: Comparable[_] = "", autoSort: Boolean = true,
+                             allowDuplicateXValues: Boolean = true)
+                            (implicit eva: Numeric[A], numb: Numeric[B]): XYSeriesCollection =
       new XYSeriesCollection(toXYSeries(name, autoSort, allowDuplicateXValues))
 
   }
 
   /** Enriches a collection of data 4-tuples. */
-  implicit class RichTuple4s[A,B,C,D](trav: Coll[(A,B,C,D)]) {
+  implicit class RichTuple4s[A, B, C, D](trav: Coll[(A, B, C, D)]) {
 
     /** Converts this collection to a `YIntervalSeries`.
       *
@@ -181,11 +189,14 @@ trait RichChartingCollections extends Imports {
       * @usecase def toYIntervalSeries(name: String): YIntervalSeries
       *   @inheritdoc
       */
-    def toYIntervalSeries(name: Comparable[_] = "", autoSort: Boolean = true, allowDuplicateXValues: Boolean = true)
-      (implicit numa: Numeric[A], numb: Numeric[B], numc: Numeric[C], numd: Numeric[D]): YIntervalSeries = {
-      trav.foldLeft(new YIntervalSeries(name, autoSort, allowDuplicateXValues)) { case (series,(x,y,yLow,yHigh)) =>
-        series.add(x.toDouble, y.toDouble, yLow.toDouble, yHigh.toDouble)
-        series
+    def toYIntervalSeries(name: Comparable[_] = "", autoSort: Boolean = true,
+                          allowDuplicateXValues: Boolean = true)
+                         (implicit numa: Numeric[A], numb: Numeric[B], numc: Numeric[C],
+                          numd: Numeric[D]): YIntervalSeries = {
+      trav.foldLeft(new YIntervalSeries(name, autoSort, allowDuplicateXValues)) {
+        case (series, (x, y, yLow, yHigh)) =>
+          series.add(x.toDouble, y.toDouble, yLow.toDouble, yHigh.toDouble)
+          series
       }
     }
 
@@ -198,8 +209,10 @@ trait RichChartingCollections extends Imports {
       * @usecase def toYIntervalSeriesCollection(name: String): YIntervalSeriesCollection
       *   @inheritdoc
       */
-    def toYIntervalSeriesCollection(name: Comparable[_] = "", autoSort: Boolean = true, allowDuplicateXValues: Boolean = true)
-      (implicit numa: Numeric[A], numb: Numeric[B], numc: Numeric[C], numd: Numeric[D]): YIntervalSeriesCollection = {
+    def toYIntervalSeriesCollection(name: Comparable[_] = "", autoSort: Boolean = true,
+                                    allowDuplicateXValues: Boolean = true)
+                                   (implicit numa: Numeric[A], numb: Numeric[B], numc: Numeric[C],
+                                    numd: Numeric[D]): YIntervalSeriesCollection = {
       val series = toYIntervalSeries(name, autoSort, allowDuplicateXValues)
       val coll = new YIntervalSeriesCollection()
       coll.addSeries(series)
@@ -209,18 +222,19 @@ trait RichChartingCollections extends Imports {
   }
 
   /** Enriches a collection of categorized data pairs. */
-  implicit class RichCategorizedTuple2s[A,B,C](trav: Coll[(A,Coll[(B,C)])]) {
+  implicit class RichCategorizedTuple2s[A, B, C](trav: Coll[(A, Coll[(B, C)])]) {
 
     /** Converts this collection to a `BoxAndWhiskerCategoryDataset`.
       *
       * @usecase def toBoxAndWhiskerCategoryDataset: BoxAndWhiskerCategoryDataset
       *   @inheritdoc
       */
-    def toBoxAndWhiskerCategoryDataset[D: Numeric](implicit eva: A => Comparable[A], evb: B => Comparable[B], evc: C => scala.collection.Seq[D]): BoxAndWhiskerCategoryDataset = {
-      trav.foldLeft(new DefaultBoxAndWhiskerCategoryDataset()) { case (dataset,(upper,catvals)) =>
+    def toBoxAndWhiskerCategoryDataset[D: Numeric](implicit eva: A => Comparable[A], evb: B => Comparable[B],
+                                                   evc: C => scala.collection.Seq[D]): BoxAndWhiskerCategoryDataset = {
+      trav.foldLeft(new DefaultBoxAndWhiskerCategoryDataset()) { case (dataset, (upper, catvals)) =>
 
-        catvals.foldLeft(dataset) { case (_dataset,(lower,values)) =>
-          _dataset.add(calculateBoxAndWhiskerStatistics(values), lower, upper)
+        catvals.foldLeft(dataset) { case (_dataset, (lower, values)) =>
+          _dataset.add(calculateBoxAndWhiskerStatistics(evc(values)), evb(lower), eva(upper))
           _dataset
         }
 
@@ -233,11 +247,12 @@ trait RichChartingCollections extends Imports {
       * @usecase def toCategoryDataset: CategoryDataset
       *   @inheritdoc
       */
-    def toCategoryDataset(implicit eva: A => Comparable[A], evb: B => Comparable[B], numc: Numeric[C]): CategoryDataset = {
-      trav.foldLeft(new DefaultCategoryDataset) { case (dataset,(series,catvals)) =>
+    def toCategoryDataset(implicit eva: A => Comparable[A], evb: B => Comparable[B],
+                          numc: Numeric[C]): CategoryDataset = {
+      trav.foldLeft(new DefaultCategoryDataset) { case (dataset, (series, catvals)) =>
 
-        catvals.foldLeft(dataset) { case (_dataset,(category,value)) =>
-          _dataset.addValue(value.toDouble, series, category)
+        catvals.foldLeft(dataset) { case (_dataset, (category, value)) =>
+          _dataset.addValue(value.toDouble, eva(series), evb(category))
           _dataset
         }
 
@@ -250,11 +265,12 @@ trait RichChartingCollections extends Imports {
       * @usecase def toCategoryTableXYDataset: CategoryTableXYDataset
       *   @inheritdoc
       */
-    def toCategoryTableXYDataset(implicit eva: A => String, numb: Numeric[B], numc: Numeric[C]): CategoryTableXYDataset = {
-      trav.foldLeft(new CategoryTableXYDataset) { case (dataset,(category,xys)) =>
+    def toCategoryTableXYDataset(implicit eva: A => String, numb: Numeric[B],
+                                 numc: Numeric[C]): CategoryTableXYDataset = {
+      trav.foldLeft(new CategoryTableXYDataset) { case (dataset, (category, xys)) =>
 
-        xys.foldLeft(dataset) { case (_dataset,(x,y)) =>
-          _dataset.add(x.toDouble, y.toDouble, category, false)
+        xys.foldLeft(dataset) { case (_dataset, (x, y)) =>
+          _dataset.add(x.toDouble, y.toDouble, eva(category), false)
           _dataset
         }
 
@@ -267,9 +283,10 @@ trait RichChartingCollections extends Imports {
       * @usecase def toTimePeriodValuesCollection: TimePeriodValuesCollection
       *   @inheritdoc
       */
-    def toTimePeriodValuesCollection(implicit eva: A => String, evb: B => TimePeriod, numc: Numeric[C]): TimePeriodValuesCollection =
-      trav.foldLeft(new TimePeriodValuesCollection) { case (dataset,(category,timevals)) =>
-        val series = timevals.toTimePeriodValues(category)
+    def toTimePeriodValuesCollection(implicit eva: A => String, evb: B => TimePeriod,
+                                     numc: Numeric[C]): TimePeriodValuesCollection =
+      trav.foldLeft(new TimePeriodValuesCollection) { case (dataset, (category, timevals)) =>
+        val series = timevals.toTimePeriodValues(eva(category))
         dataset.addSeries(series)
         dataset
       }
@@ -279,9 +296,10 @@ trait RichChartingCollections extends Imports {
       * @usecase def toTimeSeriesCollection: TimeSeriesCollection
       *   @inheritdoc
       */
-    def toTimeSeriesCollection(implicit eva: A => Comparable[A], evb: B => RegularTimePeriod, numc: Numeric[C]): TimeSeriesCollection =
-      trav.foldLeft(new TimeSeriesCollection) { case (dataset,(category,timevals)) =>
-        val series = timevals.toTimeSeries(category)
+    def toTimeSeriesCollection(implicit eva: A => Comparable[A], evb: B => RegularTimePeriod,
+                               numc: Numeric[C]): TimeSeriesCollection =
+      trav.foldLeft(new TimeSeriesCollection) { case (dataset, (category, timevals)) =>
+        val series = timevals.toTimeSeries(eva(category))
         dataset.addSeries(series)
         dataset
       }
@@ -292,10 +310,10 @@ trait RichChartingCollections extends Imports {
       *   @inheritdoc
       */
     def toTimeTable(implicit eva: A => Comparable[A], evb: B => TimePeriod, numc: Numeric[C]): TimeTableXYDataset = {
-      trav.foldLeft(new TimeTableXYDataset) { case (dataset,(category,timevals)) =>
+      trav.foldLeft(new TimeTableXYDataset) { case (dataset, (category, timevals)) =>
 
-        timevals.foldLeft(dataset) { case (_dataset,(time,value)) =>
-          _dataset.add(time, value.toDouble, category, false)
+        timevals.foldLeft(dataset) { case (_dataset, (time, value)) =>
+          _dataset.add(evb(time), value.toDouble, eva(category), false)
           _dataset
         }
 
@@ -312,9 +330,10 @@ trait RichChartingCollections extends Imports {
       *   @inheritdoc
       */
     def toXYSeriesCollection(autoSort: Boolean = true, allowDuplicateXValues: Boolean = true)
-      (implicit eva: A => Comparable[A], numb: Numeric[B], numc: Numeric[C]): IntervalXYDataset =
-      trav.foldLeft(new XYSeriesCollection) { case (dataset,(name,data)) =>
-        val series = data.toXYSeries(name, autoSort, allowDuplicateXValues)
+                            (implicit eva: A => Comparable[A], numb: Numeric[B],
+                             numc: Numeric[C]): IntervalXYDataset =
+      trav.foldLeft(new XYSeriesCollection) { case (dataset, (name, data)) =>
+        val series = data.toXYSeries(eva(name), autoSort, allowDuplicateXValues)
         dataset.addSeries(series)
         dataset
       }
@@ -333,9 +352,10 @@ trait RichChartingCollections extends Imports {
       *   @inheritdoc
       */
     def toYIntervalSeriesCollection(autoSort: Boolean = true, allowDuplicateXValues: Boolean = true)
-      (implicit eva: A => Comparable[_], numb: Numeric[B], numc: Numeric[C], numd: Numeric[D], nume: Numeric[E]): IntervalXYDataset =
-      trav.foldLeft(new YIntervalSeriesCollection) { case (dataset,(name,data)) =>
-        val series = data.toYIntervalSeries(name, autoSort, allowDuplicateXValues)
+                                   (implicit eva: A => Comparable[_], numb: Numeric[B], numc: Numeric[C],
+                                    numd: Numeric[D], nume: Numeric[E]): IntervalXYDataset =
+      trav.foldLeft(new YIntervalSeriesCollection) { case (dataset, (name, data)) =>
+        val series = data.toYIntervalSeries(eva(name), autoSort, allowDuplicateXValues)
         dataset.addSeries(series)
         dataset
       }

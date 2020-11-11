@@ -106,7 +106,7 @@ abstract class Chart protected () extends DisplayableChart with Publisher {
 }
 
 /** Provides a very basic factory to turn any `JFreeChart` into a `Chart` and contains default settings. */
-object Chart extends ChartCompanion[Chart] {
+object Chart extends ChartCompanion[Chart, org.jfree.chart.plot.Plot] {
 
   override final def fromPeer(jfree: JFreeChart): Chart = new Chart {
     type Plot = org.jfree.chart.plot.Plot

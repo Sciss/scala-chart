@@ -14,7 +14,7 @@ abstract class PieChart protected () extends Chart with PieChartLike {
   * @define chart pie chart
   * @define Chart PieChart
   */
-object PieChart extends ChartCompanion[PieChart] {
+object PieChart extends ChartCompanion[PieChart, PiePlot] {
 
   override final def fromPeer(jfree: JFreeChart): PieChart = {
     require(jfree.getPlot.isInstanceOf[Plot], "Illegal peer plot type.")

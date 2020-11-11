@@ -52,7 +52,7 @@ trait XYLabelGenerators extends Imports {
     final def apply(generator: XYLabelGenerator): XYLabelGenerator = generator
 
     /** Returns a new label generator by converting values to strings. */
-    final def apply(f: java.lang.Number => String): XYLabelGenerator =
+    final def map(f: java.lang.Number => String): XYLabelGenerator =
       XYLabelGenerator { (dataset, series, item) =>
         val idx = dataset.indexOf(series)
         val value = dataset.getY(idx, item)

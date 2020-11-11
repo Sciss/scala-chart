@@ -49,7 +49,7 @@ trait CategoryToolTipGenerators extends Imports {
     final def apply(generator: CategoryToolTipGenerator): CategoryToolTipGenerator = generator
 
     /** Returns a new tool tip generator by converting values to strings. */
-    final def apply(f: java.lang.Number => String): CategoryToolTipGenerator =
+    final def map(f: java.lang.Number => String): CategoryToolTipGenerator =
       CategoryToolTipGenerator { (dataset, series, category) =>
         val value = dataset.getValue(series,category)
         f(value)

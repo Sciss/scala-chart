@@ -54,7 +54,7 @@ class LabelGeneratorSpec extends Specification { def is = s2"""
 
   def cat3 = {
     val chart = catchart
-    chart.labelGenerator = CategoryLabelGenerator(_.toString)
+    chart.labelGenerator = CategoryLabelGenerator.map(_.toString)
     chart.labelGenerator must beSome
   }
 
@@ -88,7 +88,7 @@ class LabelGeneratorSpec extends Specification { def is = s2"""
 
   def pie3 = {
     val chart = piechart
-    chart.labelGenerator = PieLabelGenerator(_.toString)
+    chart.labelGenerator = PieLabelGenerator.map(_.toString)
     chart.labelGenerator must beSome
   }
 
@@ -127,7 +127,7 @@ class LabelGeneratorSpec extends Specification { def is = s2"""
 
   def xy3 = {
     val chart = xychart
-    chart.labelGenerator = XYLabelGenerator(_.toString)
+    chart.labelGenerator = XYLabelGenerator.map(_.toString)
     chart.labelGenerator must beSome
   }
 

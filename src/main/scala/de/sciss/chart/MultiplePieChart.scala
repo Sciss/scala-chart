@@ -32,7 +32,7 @@ abstract class MultiplePieChart protected () extends Chart
   * @define chart multiple pie chart
   * @define Chart MultiplePieChart
   */
-object MultiplePieChart extends ChartCompanion[MultiplePieChart] {
+object MultiplePieChart extends ChartCompanion[MultiplePieChart, MultiplePiePlot] {
 
   override final def fromPeer(jfree: JFreeChart): MultiplePieChart = {
     require(jfree.getPlot.isInstanceOf[Plot], "Illegal peer plot type.")

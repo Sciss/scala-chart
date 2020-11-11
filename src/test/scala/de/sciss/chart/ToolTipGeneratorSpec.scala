@@ -54,7 +54,7 @@ class ToolTipGeneratorSpec extends Specification { def is = s2"""
 
   def cat3 = {
     val chart = catchart
-    chart.tooltipGenerator = CategoryToolTipGenerator(_.toString)
+    chart.tooltipGenerator = CategoryToolTipGenerator.map(_.toString)
     chart.tooltipGenerator must beSome
   }
 
@@ -88,7 +88,7 @@ class ToolTipGeneratorSpec extends Specification { def is = s2"""
 
   def pie3 = {
     val chart = piechart
-    chart.tooltipGenerator = PieToolTipGenerator(_.toString)
+    chart.tooltipGenerator = PieToolTipGenerator.map(_.toString)
     chart.tooltipGenerator must beSome
   }
 
@@ -127,7 +127,7 @@ class ToolTipGeneratorSpec extends Specification { def is = s2"""
 
   def xy3 = {
     val chart = xychart
-    chart.tooltipGenerator = XYToolTipGenerator(_.toString)
+    chart.tooltipGenerator = XYToolTipGenerator.map(_.toString)
     chart.tooltipGenerator must beSome
   }
 

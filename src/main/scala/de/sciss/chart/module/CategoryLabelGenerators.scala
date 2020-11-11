@@ -49,7 +49,7 @@ trait CategoryLabelGenerators extends Imports {
     final def apply(generator: CategoryLabelGenerator): CategoryLabelGenerator = generator
 
     /** Returns a new label generator by converting values to strings. */
-    final def apply(f: java.lang.Number => String): CategoryLabelGenerator =
+    final def map(f: java.lang.Number => String): CategoryLabelGenerator =
       CategoryLabelGenerator { (dataset, series, category) =>
         val value = dataset.getValue(series,category)
         f(value)

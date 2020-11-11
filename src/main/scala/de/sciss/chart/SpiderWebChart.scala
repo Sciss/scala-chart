@@ -14,7 +14,7 @@ abstract class SpiderWebChart protected () extends Chart {
   * @define chart SpiderWeb chart
   * @define Chart SpiderWebChart
   */
-object SpiderWebChart extends ChartCompanion[SpiderWebChart] {
+object SpiderWebChart extends ChartCompanion[SpiderWebChart, SpiderWebPlot] {
 
   override final def fromPeer(jfree: JFreeChart): SpiderWebChart = {
     require(jfree.getPlot.isInstanceOf[Plot], "Illegal peer plot type.")

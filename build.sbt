@@ -1,5 +1,5 @@
-lazy val projectVersion = "0.7.2-SNAPSHOT"
-lazy val mimaVersion    = "0.7.0"
+lazy val projectVersion = "0.8.0"
+lazy val mimaVersion    = "0.8.0"
 lazy val baseName       = "scala-chart"
 lazy val baseNameL      = baseName.toLowerCase
 
@@ -15,8 +15,8 @@ lazy val root = project.withId(baseNameL).in(file("."))
       "GNU Lesser General Public Licence" -> url("http://www.gnu.org/licenses/lgpl.txt")
     ),
     apiURL              := Some(url("http://wookietreiber.github.io/scala-chart/latest/api/")),
-    scalaVersion        := "2.13.1",
-    crossScalaVersions  := Seq("2.13.1", "2.12.11"),
+    scalaVersion        := "2.13.3",
+    crossScalaVersions  := Seq("3.0.0-M1", "2.13.3", "2.12.12"),
     autoAPIMappings := true,
     apiURL := Some(url(s"""http://wookietreiber.github.io/scala-chart/${version.value}/api/""")),
     scalacOptions in Test ++= Seq("-Yrangepos", "-deprecation", "-unchecked", "-feature",
@@ -27,8 +27,17 @@ lazy val root = project.withId(baseNameL).in(file("."))
       "org.jfree"               %   "jfreesvg"    % deps.opt.jfreesvg  % Optional,
       "com.itextpdf"            %   "itextpdf"    % deps.opt.itext     % Optional
     ),
-    libraryDependencies += {
-      "org.specs2" %% "specs2-core" % deps.test.specs2 % Test
+    libraryDependencies ++= {
+      // specs2 currently not available for Dotty
+      if (isDotty.value) Nil else Seq(
+        "org.specs2" %% "specs2-core" % deps.test.specs2 % Test,
+      )
+    },
+    sources in (Compile, doc) := {
+      if (isDotty.value) Nil else (sources in (Compile, doc)).value // dottydoc is broken
+    },
+    unmanagedSourceDirectories in Test := {
+      if (isDotty.value) Nil else (unmanagedSourceDirectories in Test).value 
     },
     mimaPreviousArtifacts := Set("de.sciss" %% baseNameL % mimaVersion),
     initialCommands in (Compile, consoleQuick) := (initialCommands in Compile).value,
@@ -41,12 +50,12 @@ lazy val root = project.withId(baseNameL).in(file("."))
 
 lazy val deps = new {
   val main = new {
-    val scalaSwing  = "2.1.1"
+    val scalaSwing  = "3.0.0"
     val jfreechart  = "1.0.19"	// N.B. newer versions use crappy java fx
   }
   val opt = new {
     val jfreesvg    = "3.4"
-    val itext       = "5.5.13.1"
+    val itext       = "5.5.13.2"
   }
 
   val test = new {

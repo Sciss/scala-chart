@@ -49,7 +49,7 @@ trait PieLabelGenerators extends Imports {
     final def apply(generator: PieLabelGenerator): PieLabelGenerator = generator
 
     /** Returns a new label generator by converting values to strings. */
-    final def apply(f: java.lang.Number => String): PieLabelGenerator =
+    final def map(f: java.lang.Number => String): PieLabelGenerator =
       PieLabelGenerator { (dataset, key) =>
         val value = dataset.getValue(key)
         f(value)
