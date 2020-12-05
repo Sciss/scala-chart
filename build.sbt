@@ -3,20 +3,22 @@ lazy val mimaVersion    = "0.8.0"
 lazy val baseName       = "scala-chart"
 lazy val baseNameL      = baseName.toLowerCase
 
+// sonatype plugin requires that these are in global
+ThisBuild / version      := projectVersion
+ThisBuild / organization := "de.sciss"
+
 lazy val root = project.withId(baseNameL).in(file("."))
   .settings(
     name                := baseName,
-    organization        := "de.sciss",
-    version             := projectVersion,
+//    organization        := "de.sciss",
+//    version             := projectVersion,
     description         := "Scala Chart Library",
     homepage            := Some(url("https://github.com/wookietreiber/scala-chart")),
     startYear           := Some(2012),
-    licenses            := Seq(
-      "GNU Lesser General Public Licence" -> url("http://www.gnu.org/licenses/lgpl.txt")
-    ),
+    licenses            := Seq("LGPL v3+" -> url("http://www.gnu.org/licenses/lgpl-3.0.txt")),
     apiURL              := Some(url("http://wookietreiber.github.io/scala-chart/latest/api/")),
-    scalaVersion        := "2.13.3",
-    crossScalaVersions  := Seq("3.0.0-M1", "2.13.3", "2.12.12"),
+    scalaVersion        := "2.13.4",
+    crossScalaVersions  := Seq("3.0.0-M2", "2.13.4", "2.12.12"),
     autoAPIMappings := true,
     apiURL := Some(url(s"""http://wookietreiber.github.io/scala-chart/${version.value}/api/""")),
     scalacOptions in Test ++= Seq("-Yrangepos", "-deprecation", "-unchecked", "-feature",
@@ -65,32 +67,26 @@ lazy val deps = new {
 
 lazy val publishSettings = Seq(
   publishMavenStyle := true,
-  publishTo := {
-    val nexus = "https://oss.sonatype.org/"
-    if (isSnapshot.value)
-      Some("snapshots" at nexus + "content/repositories/snapshots")
-    else
-      Some("releases"  at nexus + "service/local/staging/deploy/maven2")
-  },
   publishArtifact in Test := false,
   pomIncludeRepository := { _ => false },
-  scmInfo := Some(ScmInfo(
-    url("https://git.iem.at/sciss/scala-chart"),
-    "scm:git:git://git.iem.at/sciss/scala-chart.git",
-    Some("scm:git:https://git.iem.at/sciss/scala-chart.git")
-  )),
-  pomExtra := {
-    <developers>
-      <developer>
-        <id>wookietreiber</id>
-        <name>Christian Krause</name>
-        <url>https://github.com/wookietreiber</url>
-      </developer>
-      <developer>
-        <id>sciss</id>
-        <name>Hanns Holger Rutz</name>
-        <url>http://www.sciss.de</url>
-      </developer>
-    </developers>
-  }
+  developers := List(
+    Developer(
+      id    = "wookietreiber",
+      name  = "Christian Krause",
+      email = "", // ?
+      url   = url("https://github.com/wookietreiber"),
+    ),
+    Developer(
+      id    = "sciss",
+      name  = "Hanns Holger Rutz",
+      email = "contact@sciss.de",
+      url   = url("https://www.sciss.de"),
+    ),
+  ),
+  scmInfo := {
+    val h = "git.iem.at"
+    val a = s"sciss/$baseName"
+    Some(ScmInfo(url(s"https://$h/$a"), s"scm:git@$h:$a.git"))
+  },
 )
+
