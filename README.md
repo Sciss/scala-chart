@@ -1,6 +1,6 @@
 # Scala Chart
 
-[![Build Status](https://travis-ci.org/Sciss/scala-chart.svg?branch=master)](https://travis-ci.org/Sciss/scala-chart)
+[![Build Status](https://github.com/Sciss/scala-chart/workflows/Scala%20CI/badge.svg?branch=main)](https://github.com/Sciss/scala-chart/actions?query=workflow%3A%22Scala+CI%22)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/de.sciss/scala-chart_2.13/badge.svg)](https://maven-badges.herokuapp.com/maven-central/de.sciss/scala-chart_2.13)
 [![Scaladoc](http://javadoc-badge.appspot.com/de.sciss/scala-chart_2.13.svg?label=scaladoc)](http://javadoc-badge.appspot.com/de.sciss/scala-chart_2.13)
 
